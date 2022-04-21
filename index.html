@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Will You Snail color scheme creator</title>
+        <style>
+            input[type = color] {
+                background-color: transparent;
+                border: none;
+                padding: 0;
+                cursor: pointer;
+                position: relative;
+                top: 5px;
+                left: 1px;
+                width: 30px;
+                height: 30px;
+            }
+
+            input[type = number] {
+                padding: 0;
+                cursor: pointer;
+                position: relative;
+                left: 5px;
+                width: 60px;
+            }
+
+            #selection_container {
+                padding: 10px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="selection_container">
+            <select id="type"></select>
+            <input type="button" id="select" value="Select value" onclick="addDiv()">
+        </div>
+
+        <div id="values"></div>
+
+        <input type="button" value="Finish" onclick="finish()">
+
+        <script>
+
+            const select = document.getElementById("type")
+            const vals = document.getElementById("values")
+
+            const cTypes = [
+                "Background",
+                "Background Pattern",
+                "Background In Darkness",
+                "Background Pattern In Darkness",
+                "Wall A",
+                "Wall B",
+                "Wall A Dark",
+                "Wall B Dark",
+                "Wall Outline A",
+                "Wall Outline B",
+                "AI A",
+                "AI B",
+                "Snail Glow",
+                "Player Spotlight",
+                "Player Spotlight Dark",
+                "Snail Death",
+                "Snail Trail",
+                "Enemies",
+                "Enemy Warnings",
+                "Snail Outline",
+                "Snail Body",
+                "Snail Shell",
+                "Snail Eye",
+                "Dallin",
+                "Dialog Files",
+                "Overlay Gradient Color Top",
+                "Overlay Gradient Color Bot",
+                "Overlay Vignette Color",
+                "Bloom Color",
+                "Lvl Locked Front",
+                "Lvl Locked Back",
+                "Lvl Normal Front",
+                "Lvl Normal Back",
+                "Lvl Story Front",
+                "Lvl Story Back",
+                "Lvl Secret Front",
+                "Lvl Secret Back",
+                "Lvl Questionmark Indicator",
+                "Lvl Questionmark Indicator Selected",
+                "Bubbles",
+                "Underw Currents",
+                "Snail Flare",
+                "AI In Background",
+                "Light Ocean",
+                "Conveyor Belts",
+                "Final Boss 1A",
+                "Final Boss 1B",
+                "Final Boss 2",
+                "Final Boss 3",
+                "TD Turret 1",
+                "TD Turret 2",
+                "TD Turret 3",
+                "Exploration Points",
+                "Corrupted Antenna",
+                "Dialog File Overlay",
+                "Doors",
+                "Unicorn",
+                "Smiley 1",
+                "Smiley 2"
+            ];
+            const nTypes = [
+                "Background Scale Min",
+                "Background Scale Max",
+                "Background Style",
+                "Background Parallax Min",
+                "Background Parallax Max",
+                "Background Scroll Speed Max",
+                "Background Scroll Speed Min",
+                "Wall Brightness When Lights Are Out",
+                "Disco Light Hue Offset",
+                "Disco Light Hue Spread",
+                "Disco Light Saturation",
+                "Disco Light Alpha",
+                "Dialog File Overlay Alpha",
+                "Hue Shift All Colors",
+                "Overlay Vignette Alpha",
+                "Overlay Vignette Size",
+                "Bloom Alpha"
+            ]
+            const bTypes = [
+                "Color Rotation Allowed",
+                "Minimalist Color Mode"
+            ]
+            const vTypes = [
+                "Post Processing Contrast",
+                "Post Processing Contrast Offset"
+            ]
+
+            // https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+            function hexToRgb(hex) {
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+            }
+
+            {
+                // Colors
+                var cG = document.createElement("optgroup")
+                cG.label = "Colors"
+                for (var i in cTypes) {
+                    let o = document.createElement("option")
+                    o.value = cTypes[i]
+                    o.innerText = cTypes[i]
+                    cG.appendChild(o)
+                }
+                select.appendChild(cG)
+
+                // Numbers
+                var nG = document.createElement("optgroup")
+                nG.label = "Numbers"
+                for (var i in nTypes) {
+                    let o = document.createElement("option")
+                    o.value = nTypes[i]
+                    o.innerText = nTypes[i]
+                    nG.appendChild(o)
+                }
+                select.appendChild(nG)
+
+                // Booleans
+                var bG = document.createElement("optgroup")
+                bG.label = "Booleans"
+                for (var i in bTypes) {
+                    let o = document.createElement("option")
+                    o.value = bTypes[i]
+                    o.innerText = bTypes[i]
+                    bG.appendChild(o)
+                }
+                select.appendChild(bG)
+
+                // Vectors
+                var vG = document.createElement("optgroup")
+                vG.label = "Vectors"
+                for (var i in vTypes) {
+                    let o = document.createElement("option")
+                    o.value = vTypes[i]
+                    o.innerText = vTypes[i]
+                    vG.appendChild(o)
+                }
+                select.appendChild(vG)
+            }
+
+            var cols = [];
+
+            function addCol() {
+                let a = document.createElement("div")
+
+                let txt = document.createElement("label")
+                let inp = document.createElement("input")
+
+                inp.type = "color"
+                txt.innerHTML = cTypes[select.selectedIndex]
+
+                a.appendChild(txt)
+                a.appendChild(inp)
+
+                vals.appendChild(a)
+
+            }
+
+            function addNum() {
+                let a = document.createElement("div")
+
+                let txt = document.createElement("label")
+                let inp = document.createElement("input")
+
+                inp.type = "number"
+                txt.innerHTML = nTypes[select.selectedIndex - cTypes.length]
+
+                a.appendChild(txt)
+                a.appendChild(inp)
+
+                vals.appendChild(a)
+
+            }
+
+            function addBool() {
+                let a = document.createElement("div")
+
+                let txt = document.createElement("label")
+                let inp = document.createElement("input")
+
+                inp.type = "checkbox"
+                txt.innerHTML = bTypes[select.selectedIndex - cTypes.length - nTypes.length]
+
+                a.appendChild(txt)
+                a.appendChild(inp)
+
+                vals.appendChild(a)
+
+            }
+
+            function addVec() {
+                let a = document.createElement("div")
+
+                let txt = document.createElement("label")
+
+                txt.innerHTML = vTypes[select.selectedIndex - cTypes.length - nTypes.length - bTypes.length]
+
+                a.appendChild(txt)
+
+                for (let i = 3; i --;) {
+                    let inp = document.createElement("input")
+                    inp.type = "number"
+                    a.appendChild(inp)
+                }
+
+                vals.appendChild(a)
+
+            }
+
+            function addDiv() {
+                if (select.selectedIndex < cTypes.length) addCol()
+                else if (select.selectedIndex < cTypes.length + nTypes.length) addNum()
+                else if (select.selectedIndex < cTypes.length + nTypes.length + bTypes.length) addBool()
+                else addVec()
+
+                let d = vals.children[vals.children.length - 1]
+
+                let delButton = document.createElement("input")
+                delButton.type = "button"
+                delButton.value = "Remove"
+                delButton.setAttribute("onclick", `removeDiv(${vals.children.length - 1})`)
+
+                d.appendChild(delButton)
+            }
+
+            
+            function removeDiv(i) {
+                vals.removeChild(vals.children[i])
+
+                for (var j = i; j < vals.children.length; j ++) {
+                    let e = vals.children[j].children
+                    // let numLength = e[e.length - 1].onclick.toString().substr(36).indexOf(")")
+                    // alert(e[e.length - 1].onclick.toString().substr(36).indexOf(")"))
+                    // alert(e[e.length - 1].onclick.toString().indexOf(")"))
+                    e[e.length - 1].setAttribute("onclick", `removeDiv(${j})`)
+                }
+            }
+
+            // Couldn't be bothered to make one of these myself so I just stole it from https://www.khanacademy.org/computer-programming/primavera-2022/6556387095134208
+            function copyStringToClipboard (str) {
+               // Create new element
+               var el = document.createElement('textarea');
+               // Set value (string to be copied)
+               el.value = str;
+               // Set non-editable to avoid focus and move outside of view
+               el.setAttribute('readonly', '');
+               el.style = {position: 'absolute', left: '-9999px'};
+               document.body.appendChild(el);
+               // Select text inside element
+               el.select();
+               // Copy text to clipboard
+               document.execCommand('copy');
+               // Remove temporary element
+               document.body.removeChild(el);
+            }
+
+            function finish() {
+
+                const c = vals.children
+
+                let txt = "Made with Dolphin's WYS color scheme creator:\n" + window.location.href + "\n(You can remove this if you want but I would appreciate it if you didn't)\n\n\n"
+                for (var i = 0; i < c.length; i ++) {
+
+                    txt += `${c[i].children[0].innerText}\n`
+
+                    if (c[i].children[1].type == "color") {
+                        let rgb = hexToRgb(c[i].children[1].value)
+                        txt += `RGB: ${rgb.r}, ${rgb.g}, ${rgb.b}`
+                    }
+                    
+                    if (c[i].children[1].type == "number") {
+                        if (c[i].children.length < 5) txt += c[i].children[1].value
+                        else {
+                            let ch = c[i].children
+                            txt += `${ch[1].value}\n${ch[2].value}\n${ch[3].value}`
+                        }
+                    }
+
+                    if (c[i].children[1].type == "checkbox") {
+                        txt += (c[i].children[1].checked + 0)
+                    }
+
+                    txt += "\n\n"
+
+                }
+                alert("Color scheme copied to clipboard! Paste it into a color file to use it.")
+
+                copyStringToClipboard(txt)
+                console.log(txt)
+            }
+
+        </script>
+    </body>
+
+</html>
